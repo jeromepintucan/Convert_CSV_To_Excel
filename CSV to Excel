@@ -1,0 +1,28 @@
+import os
+import pandas as pd
+
+def change_to_excel(input_file_path, output_folder):
+    try:
+        df = pd.read_csv(input_file_path, encoding="utf-8")
+        output_file_path = os.path.join(output_folder, os.path.basename(input_file_path)[:-4] + '.xlsx')
+        df.to_excel(output_file_path, index=False, sheet_name='Transactions')
+        print(f"Converted {input_file_path} to Excel successfully.")
+    except Exception as e:
+        print(f"Error processing {input_file_path}: {str(e)}")
+
+def process_excel_files(input_folder, output_folder):
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+        
+    files = os.listdir(input_folder)
+    
+    for file in files:
+        if file.endswith('.csv'):
+            input_file_path = os.path.join(input_folder, file)
+            print(f"Processing {input_file_path}...")
+            change_to_excel(input_file_path, output_folder)
+
+input_folder = r'C:\Users\Jerome Pintucan\OneDrive - TRANSNATIONAL E-BUSINESS SOLUTIONS INC\EASYCALL\EASYCALL\JUSTKITCHEN\CHANGE TO CSV'
+output_folder = r'C:\Users\Jerome Pintucan\OneDrive - TRANSNATIONAL E-BUSINESS SOLUTIONS INC\EASYCALL\EASYCALL\JUSTKITCHEN\CSV Converted to Excel'
+
+process_excel_files(input_folder, output_folder)
